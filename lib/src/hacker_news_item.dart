@@ -25,6 +25,8 @@ class HackerNewsItem {
       this.kids});
 
   factory HackerNewsItem.fromJson(json) {
+    if (json == null) return null;
+
     return HackerNewsItem(
       id: json["id"] ?? 0,
       type: json["type"] ?? null,
