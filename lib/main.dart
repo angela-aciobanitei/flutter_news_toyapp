@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,13 +38,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: ListView(children: _articles.map(_buildItem).toList()),
-      );
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Future.delayed(Duration(seconds: 1));
+        },
+          child: ListView(children: _articles.map(_buildItem).toList())),
+    );
   }
 }
 
 Widget _buildItem(Article article) {
   return ExpansionTile(
+    key: Key(article.text),
     title: Text(article.text),
     children: [
       Padding(
