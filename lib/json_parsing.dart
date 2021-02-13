@@ -1,13 +1,13 @@
 import 'dart:convert' as convert;
 
-import 'package:flutter_news_toyapp/src/article.dart';
+import 'package:flutter_news_toyapp/src/hacker_news_item.dart';
 
 List<int> parseTopStories(String jsonStr) {
   final parsed = convert.jsonDecode(jsonStr);
   return List<int>.from(parsed);
 }
 
-Article parseArticle(String jsonStr) {
+HackerNewsItem parseStory(String jsonStr) {
   final parsed = convert.jsonDecode(jsonStr);
-  return Article.fromJson(parsed);
+  return HackerNewsItem.fromJson(parsed);
 }

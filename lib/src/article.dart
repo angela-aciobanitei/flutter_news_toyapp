@@ -13,18 +13,6 @@ class Article {
       this.age,
       this.score,
       this.commentsCount});
-
-  factory Article.fromJson(Map<String, dynamic> json) {
-    if (json == null) return null;
-    return Article(
-      text: json["text"] ?? null,
-      domain: json["domain"] ?? null,
-      by: json["by"] ?? null,
-      age: json["age"] ?? null,
-      score: json["score"] ?? 0,
-      commentsCount: json["commentsCount"] ?? 0,
-    );
-  }
 }
 
 final articles = [
