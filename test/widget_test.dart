@@ -1,19 +1,36 @@
+// How to fix Widget Test Error: Not found: 'dart:ui'
+// Edit Configurations -> + -> Flutter Test
+// Make sure the Test scope is 'All in file' and that the Test file
+// points at your test file.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_news_toyapp/main.dart';
 
 void main() {
   testWidgets('a very simple widget test', (WidgetTester tester) async {
-    // Build the app and trigger a frame
+    // Create the widget by telling the tester to build it.
+    // https://flutter.dev/docs/cookbook/testing/widget/introduction
     await tester.pumpWidget(NewsApp());
 
-    // When article tile is not expanded, the launch icon is hidden
-    expect(find.byIcon(Icons.launch), findsNothing);
+    // Create the Finders
+    final iconFinder = find.byIcon(Icons.launch);
+    final tileFinder = find.byType(ExpansionTile);
+    final keyFinder = find.byKey(Key("Evolution Is the New Deep Learning"));
 
-    // After a article tile tap, the launch icon should be visible
-    await tester.tap(find.byType(ExpansionTile).first);
+    // Use matchers provided by flutter_test(`findsNothing`,
+    // `findsOneWidget`, `findsNWidgets`)
+    expect(iconFinder, findsNothing);
+
+    // Use WidgetTester to tap on the first tile
+    await tester.tap(tileFinder.first);
     await tester.pump();
 
-    expect(find.byIcon(Icons.launch), findsOneWidget);
+    expect(iconFinder, findsOneWidget);
+
+    await tester.tap(keyFinder);
+    await tester.pump();
+
+    expect(iconFinder, findsNWidgets(2));
   });
 }
