@@ -4,11 +4,12 @@
 // points at your test file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_news_toyapp/main.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('a very simple widget test', (WidgetTester tester) async {
+  testWidgets('taps on item display url launcher icon',
+      (WidgetTester tester) async {
     // Create the widget by telling the tester to build it.
     // https://flutter.dev/docs/cookbook/testing/widget/introduction
     await tester.pumpWidget(NewsApp());
