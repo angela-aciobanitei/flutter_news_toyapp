@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,25 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) => ListView(
           children: snapshot.data.map(_buildItem).toList(),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.topic_outlined), label: 'Top Stories'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.new_releases_outlined), label: 'New Stories'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_outlined), label: 'Favourites'),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Colors.amber[800],
+        onTap: (index) {
+          if (index == 0) {
+            widget.bloc.storiesType.add(StoriesType.topStories);
+          } else {
+            widget.bloc.storiesType.add(StoriesType.newStories);
+          }
+        },
       ),
     );
   }
