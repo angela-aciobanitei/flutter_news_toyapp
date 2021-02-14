@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_news_toyapp/loading_info.dart';
 import 'package:flutter_news_toyapp/src/article.dart';
 import 'package:flutter_news_toyapp/src/hn_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,12 +17,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  void _updateCurrentIndex(int index) {
+    setState(() => _currentIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        leading: LoadingInfo(widget.bloc.isLoading),
       ),
       body: StreamBuilder<UnmodifiableListView<Article>>(
         stream: widget.bloc.articles,
@@ -39,9 +46,9 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite_border_outlined), label: 'Favourites'),
         ],
-        currentIndex: 0,
-        selectedItemColor: Colors.amber[800],
+        currentIndex: _currentIndex,
         onTap: (index) {
+          _updateCurrentIndex(index);
           if (index == 0) {
             widget.bloc.storiesType.add(StoriesType.topStories);
           } else {
