@@ -14,6 +14,8 @@ import 'article.dart';
 class HackerNewsBloc {
   static const _baseUrl = 'https://hacker-news.firebaseio.com/v0/';
 
+  HashMap<int, Article> _cachedArticles;
+
   final _articlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
   final _isLoadingSubject = BehaviorSubject<bool>();
   final _storiesTypeController = StreamController<StoriesType>();
@@ -21,6 +23,7 @@ class HackerNewsBloc {
   var _articles = <Article>[];
 
   HackerNewsBloc() {
+    _cachedArticles = HashMap<int, Article>();
     _initArticles();
     _storiesTypeController.stream.listen((storiesType) async {
       _getArticlesByIds(await _getIds(storiesType));
@@ -34,12 +37,16 @@ class HackerNewsBloc {
   Sink<StoriesType> get storiesType => _storiesTypeController.sink;
 
   Future<Article> _getArticle(int id) async {
-    final storyUrl = '${_baseUrl}item/$id.json';
-    final storyResponse = await http.get(storyUrl);
-    if (storyResponse.statusCode != 200) {
-      throw HackerNewsApiError("Could not fetch article $id.");
+    if (!_cachedArticles.containsKey(id)) {
+      final storyUrl = '${_baseUrl}item/$id.json';
+      final storyResponse = await http.get(storyUrl);
+      if (storyResponse.statusCode == 200) {
+        _cachedArticles[id] = parseArticle(storyResponse.body);
+      } else {
+        throw HackerNewsApiError("Could not fetch article $id.");
+      }
     }
-    return parseArticle(storyResponse.body);
+    return _cachedArticles[id];
   }
 
   Future<List<int>> _getIds(StoriesType type) async {
