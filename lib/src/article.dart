@@ -1,4 +1,4 @@
-import 'dart:convert' as json;
+import 'dart:convert' as convert;
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -6,12 +6,10 @@ import 'package:built_value/serializer.dart';
 
 import 'serializers.dart';
 
-part 'hacker_news_item.g.dart';
+part 'article.g.dart';
 
-abstract class HackerNewsItem
-    implements Built<HackerNewsItem, HackerNewsItemBuilder> {
-  static Serializer<HackerNewsItem> get serializer =>
-      _$hackerNewsItemSerializer;
+abstract class Article implements Built<Article, ArticleBuilder> {
+  static Serializer<Article> get serializer => _$articleSerializer;
 
   /// The item's unique id (required)
   int get id;
@@ -59,14 +57,17 @@ abstract class HackerNewsItem
   /// A list of related pollopts, in display order.
   BuiltList<int> get parts;
 
-  HackerNewsItem._();
+  Article._();
 
-  factory HackerNewsItem([updates(HackerNewsItemBuilder b)]) = _$HackerNewsItem;
+  factory Article([updates(ArticleBuilder b)]) = _$Article;
 }
 
-HackerNewsItem parseHackerNewsItem(String jsonStr) {
-  final parsed = json.jsonDecode(jsonStr);
-  HackerNewsItem item =
-      standardSerializers.deserializeWith(HackerNewsItem.serializer, parsed);
-  return item;
+Article parseArticle(String jsonStr) {
+  final parsed = convert.jsonDecode(jsonStr);
+  return standardSerializers.deserializeWith(Article.serializer, parsed);
+}
+
+List<int> parseTopStories(String jsonStr) {
+  final parsed = convert.jsonDecode(jsonStr);
+  return List<int>.from(parsed);
 }

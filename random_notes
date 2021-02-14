@@ -1,0 +1,4 @@
+Use the 'flutter pub run build_runner <command>' to invoke the build_runner package.
+The available commands are build, watch, serve, and test.
+    build: Runs a single build and exits.
+    watch: Runs a persistent build server that watches the files system for edits and does rebuilds as necessary.

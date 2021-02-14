@@ -1,23 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'hacker_news_item.dart';
+part of 'article.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-Serializer<HackerNewsItem> _$hackerNewsItemSerializer =
-    new _$HackerNewsItemSerializer();
+Serializer<Article> _$articleSerializer = new _$ArticleSerializer();
 
-class _$HackerNewsItemSerializer
-    implements StructuredSerializer<HackerNewsItem> {
+class _$ArticleSerializer implements StructuredSerializer<Article> {
   @override
-  final Iterable<Type> types = const [HackerNewsItem, _$HackerNewsItem];
+  final Iterable<Type> types = const [Article, _$Article];
   @override
-  final String wireName = 'HackerNewsItem';
+  final String wireName = 'Article';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, HackerNewsItem object,
+  Iterable<Object> serialize(Serializers serializers, Article object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -83,10 +81,9 @@ class _$HackerNewsItemSerializer
   }
 
   @override
-  HackerNewsItem deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+  Article deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new HackerNewsItemBuilder();
+    final result = new ArticleBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -157,7 +154,7 @@ class _$HackerNewsItemSerializer
   }
 }
 
-class _$HackerNewsItem extends HackerNewsItem {
+class _$Article extends Article {
   @override
   final int id;
   @override
@@ -185,10 +182,10 @@ class _$HackerNewsItem extends HackerNewsItem {
   @override
   final BuiltList<int> parts;
 
-  factory _$HackerNewsItem([void Function(HackerNewsItemBuilder) updates]) =>
-      (new HackerNewsItemBuilder()..update(updates)).build();
+  factory _$Article([void Function(ArticleBuilder) updates]) =>
+      (new ArticleBuilder()..update(updates)).build();
 
-  _$HackerNewsItem._(
+  _$Article._(
       {this.id,
       this.type,
       this.time,
@@ -204,37 +201,36 @@ class _$HackerNewsItem extends HackerNewsItem {
       this.parts})
       : super._() {
     if (id == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'id');
+      throw new BuiltValueNullFieldError('Article', 'id');
     }
     if (type == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'type');
+      throw new BuiltValueNullFieldError('Article', 'type');
     }
     if (time == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'time');
+      throw new BuiltValueNullFieldError('Article', 'time');
     }
     if (by == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'by');
+      throw new BuiltValueNullFieldError('Article', 'by');
     }
     if (kids == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'kids');
+      throw new BuiltValueNullFieldError('Article', 'kids');
     }
     if (parts == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'parts');
+      throw new BuiltValueNullFieldError('Article', 'parts');
     }
   }
 
   @override
-  HackerNewsItem rebuild(void Function(HackerNewsItemBuilder) updates) =>
+  Article rebuild(void Function(ArticleBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  HackerNewsItemBuilder toBuilder() =>
-      new HackerNewsItemBuilder()..replace(this);
+  ArticleBuilder toBuilder() => new ArticleBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is HackerNewsItem &&
+    return other is Article &&
         id == other.id &&
         type == other.type &&
         time == other.time &&
@@ -280,7 +276,7 @@ class _$HackerNewsItem extends HackerNewsItem {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('HackerNewsItem')
+    return (newBuiltValueToStringHelper('Article')
           ..add('id', id)
           ..add('type', type)
           ..add('time', time)
@@ -298,9 +294,8 @@ class _$HackerNewsItem extends HackerNewsItem {
   }
 }
 
-class HackerNewsItemBuilder
-    implements Builder<HackerNewsItem, HackerNewsItemBuilder> {
-  _$HackerNewsItem _$v;
+class ArticleBuilder implements Builder<Article, ArticleBuilder> {
+  _$Article _$v;
 
   int _id;
 
@@ -380,9 +375,9 @@ class HackerNewsItemBuilder
 
   set parts(ListBuilder<int> parts) => _$this._parts = parts;
 
-  HackerNewsItemBuilder();
+  ArticleBuilder();
 
-  HackerNewsItemBuilder get _$this {
+  ArticleBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
       _type = _$v.type;
@@ -403,24 +398,24 @@ class HackerNewsItemBuilder
   }
 
   @override
-  void replace(HackerNewsItem other) {
+  void replace(Article other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$HackerNewsItem;
+    _$v = other as _$Article;
   }
 
   @override
-  void update(void Function(HackerNewsItemBuilder) updates) {
+  void update(void Function(ArticleBuilder) updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$HackerNewsItem build() {
-    _$HackerNewsItem _$result;
+  _$Article build() {
+    _$Article _$result;
     try {
       _$result = _$v ??
-          new _$HackerNewsItem._(
+          new _$Article._(
               id: id,
               type: type,
               time: time,
@@ -444,7 +439,7 @@ class HackerNewsItemBuilder
         parts.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'HackerNewsItem', _$failedField, e.toString());
+            'Article', _$failedField, e.toString());
       }
       rethrow;
     }

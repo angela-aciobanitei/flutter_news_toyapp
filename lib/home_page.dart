@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_news_toyapp/src/hacker_news_item.dart';
+import 'package:flutter_news_toyapp/src/article.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,11 +28,11 @@ class _HomePageState extends State<HomePage> {
     17392455,
   ];
 
-  Future<HackerNewsItem> _getNewsItem(int id) async {
+  Future<Article> _getArticle(int id) async {
     final storyUrl = 'https://hacker-news.firebaseio.com/v0/item/$id.json';
     try {
       final storyRes = await http.get(storyUrl);
-      return parseHackerNewsItem(storyRes.body);
+      return parseArticle(storyRes.body);
     } catch (err) {
       print('Caught error: $err');
     }
@@ -46,10 +46,10 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: _ids
-            .map((i) => FutureBuilder<HackerNewsItem>(
-                  future: _getNewsItem(i),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<HackerNewsItem> snapshot) {
+            .map((i) => FutureBuilder<Article>(
+                  future: _getArticle(i),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Article> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return _buildItem(snapshot.data);
                     } else {
@@ -62,21 +62,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildItem(HackerNewsItem item) {
+  Widget _buildItem(Article article) {
     return ExpansionTile(
-      key: Key(item.id.toString()),
-      title: Text(item.title),
+      key: Key(article.id.toString()),
+      title: Text(article.title),
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${item.descendants} comments"),
+              Text("${article.descendants} comments"),
               IconButton(
                 icon: Icon(Icons.launch),
                 onPressed: () async {
-                  if (await canLaunch(item.url)) launch(item.url);
+                  if (await canLaunch(article.url)) launch(article.url);
                 },
               )
             ],
