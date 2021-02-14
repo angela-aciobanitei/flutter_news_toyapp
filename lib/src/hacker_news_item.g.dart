@@ -24,10 +24,10 @@ class _$HackerNewsItemSerializer
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'type',
       serializers.serialize(object.type, specifiedType: const FullType(String)),
-      'by',
-      serializers.serialize(object.by, specifiedType: const FullType(String)),
       'time',
       serializers.serialize(object.time, specifiedType: const FullType(int)),
+      'by',
+      serializers.serialize(object.by, specifiedType: const FullType(String)),
       'kids',
       serializers.serialize(object.kids,
           specifiedType:
@@ -37,11 +37,11 @@ class _$HackerNewsItemSerializer
           specifiedType:
               const FullType(BuiltList, const [const FullType(int)])),
     ];
-    if (object.deleted != null) {
+    if (object.title != null) {
       result
-        ..add('deleted')
-        ..add(serializers.serialize(object.deleted,
-            specifiedType: const FullType(bool)));
+        ..add('title')
+        ..add(serializers.serialize(object.title,
+            specifiedType: const FullType(String)));
     }
     if (object.text != null) {
       result
@@ -49,11 +49,11 @@ class _$HackerNewsItemSerializer
         ..add(serializers.serialize(object.text,
             specifiedType: const FullType(String)));
     }
-    if (object.dead != null) {
+    if (object.url != null) {
       result
-        ..add('dead')
-        ..add(serializers.serialize(object.dead,
-            specifiedType: const FullType(bool)));
+        ..add('url')
+        ..add(serializers.serialize(object.url,
+            specifiedType: const FullType(String)));
     }
     if (object.parent != null) {
       result
@@ -61,17 +61,11 @@ class _$HackerNewsItemSerializer
         ..add(serializers.serialize(object.parent,
             specifiedType: const FullType(int)));
     }
-    if (object.poll != null) {
+    if (object.descendants != null) {
       result
-        ..add('poll')
-        ..add(serializers.serialize(object.poll,
+        ..add('descendants')
+        ..add(serializers.serialize(object.descendants,
             specifiedType: const FullType(int)));
-    }
-    if (object.url != null) {
-      result
-        ..add('url')
-        ..add(serializers.serialize(object.url,
-            specifiedType: const FullType(String)));
     }
     if (object.score != null) {
       result
@@ -79,16 +73,10 @@ class _$HackerNewsItemSerializer
         ..add(serializers.serialize(object.score,
             specifiedType: const FullType(int)));
     }
-    if (object.title != null) {
+    if (object.poll != null) {
       result
-        ..add('title')
-        ..add(serializers.serialize(object.title,
-            specifiedType: const FullType(String)));
-    }
-    if (object.descendants != null) {
-      result
-        ..add('descendants')
-        ..add(serializers.serialize(object.descendants,
+        ..add('poll')
+        ..add(serializers.serialize(object.poll,
             specifiedType: const FullType(int)));
     }
     return result;
@@ -110,36 +98,32 @@ class _$HackerNewsItemSerializer
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'deleted':
-          result.deleted = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
-          break;
         case 'type':
           result.type = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'by':
-          result.by = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'time':
           result.time = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'by':
+          result.by = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'text':
           result.text = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'dead':
-          result.dead = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+        case 'url':
+          result.url = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'parent':
           result.parent = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
-        case 'poll':
-          result.poll = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'kids':
@@ -148,27 +132,23 @@ class _$HackerNewsItemSerializer
                       const FullType(BuiltList, const [const FullType(int)]))
               as BuiltList<Object>);
           break;
-        case 'url':
-          result.url = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+        case 'descendants':
+          result.descendants = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'score':
           result.score = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+        case 'poll':
+          result.poll = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'parts':
           result.parts.replace(serializers.deserialize(value,
                   specifiedType:
                       const FullType(BuiltList, const [const FullType(int)]))
               as BuiltList<Object>);
-          break;
-        case 'descendants':
-          result.descendants = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -181,53 +161,47 @@ class _$HackerNewsItem extends HackerNewsItem {
   @override
   final int id;
   @override
-  final bool deleted;
-  @override
   final String type;
-  @override
-  final String by;
   @override
   final int time;
   @override
-  final String text;
-  @override
-  final bool dead;
-  @override
-  final int parent;
-  @override
-  final int poll;
-  @override
-  final BuiltList<int> kids;
-  @override
-  final String url;
-  @override
-  final int score;
+  final String by;
   @override
   final String title;
   @override
-  final BuiltList<int> parts;
+  final String text;
+  @override
+  final String url;
+  @override
+  final int parent;
+  @override
+  final BuiltList<int> kids;
   @override
   final int descendants;
+  @override
+  final int score;
+  @override
+  final int poll;
+  @override
+  final BuiltList<int> parts;
 
   factory _$HackerNewsItem([void Function(HackerNewsItemBuilder) updates]) =>
       (new HackerNewsItemBuilder()..update(updates)).build();
 
   _$HackerNewsItem._(
       {this.id,
-      this.deleted,
       this.type,
-      this.by,
       this.time,
-      this.text,
-      this.dead,
-      this.parent,
-      this.poll,
-      this.kids,
-      this.url,
-      this.score,
+      this.by,
       this.title,
-      this.parts,
-      this.descendants})
+      this.text,
+      this.url,
+      this.parent,
+      this.kids,
+      this.descendants,
+      this.score,
+      this.poll,
+      this.parts})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('HackerNewsItem', 'id');
@@ -235,11 +209,11 @@ class _$HackerNewsItem extends HackerNewsItem {
     if (type == null) {
       throw new BuiltValueNullFieldError('HackerNewsItem', 'type');
     }
-    if (by == null) {
-      throw new BuiltValueNullFieldError('HackerNewsItem', 'by');
-    }
     if (time == null) {
       throw new BuiltValueNullFieldError('HackerNewsItem', 'time');
+    }
+    if (by == null) {
+      throw new BuiltValueNullFieldError('HackerNewsItem', 'by');
     }
     if (kids == null) {
       throw new BuiltValueNullFieldError('HackerNewsItem', 'kids');
@@ -262,20 +236,18 @@ class _$HackerNewsItem extends HackerNewsItem {
     if (identical(other, this)) return true;
     return other is HackerNewsItem &&
         id == other.id &&
-        deleted == other.deleted &&
         type == other.type &&
-        by == other.by &&
         time == other.time &&
-        text == other.text &&
-        dead == other.dead &&
-        parent == other.parent &&
-        poll == other.poll &&
-        kids == other.kids &&
-        url == other.url &&
-        score == other.score &&
+        by == other.by &&
         title == other.title &&
-        parts == other.parts &&
-        descendants == other.descendants;
+        text == other.text &&
+        url == other.url &&
+        parent == other.parent &&
+        kids == other.kids &&
+        descendants == other.descendants &&
+        score == other.score &&
+        poll == other.poll &&
+        parts == other.parts;
   }
 
   @override
@@ -291,43 +263,37 @@ class _$HackerNewsItem extends HackerNewsItem {
                                     $jc(
                                         $jc(
                                             $jc(
-                                                $jc(
-                                                    $jc(
-                                                        $jc($jc(0, id.hashCode),
-                                                            deleted.hashCode),
-                                                        type.hashCode),
-                                                    by.hashCode),
+                                                $jc($jc(0, id.hashCode),
+                                                    type.hashCode),
                                                 time.hashCode),
-                                            text.hashCode),
-                                        dead.hashCode),
-                                    parent.hashCode),
-                                poll.hashCode),
-                            kids.hashCode),
-                        url.hashCode),
-                    score.hashCode),
-                title.hashCode),
-            parts.hashCode),
-        descendants.hashCode));
+                                            by.hashCode),
+                                        title.hashCode),
+                                    text.hashCode),
+                                url.hashCode),
+                            parent.hashCode),
+                        kids.hashCode),
+                    descendants.hashCode),
+                score.hashCode),
+            poll.hashCode),
+        parts.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('HackerNewsItem')
           ..add('id', id)
-          ..add('deleted', deleted)
           ..add('type', type)
-          ..add('by', by)
           ..add('time', time)
-          ..add('text', text)
-          ..add('dead', dead)
-          ..add('parent', parent)
-          ..add('poll', poll)
-          ..add('kids', kids)
-          ..add('url', url)
-          ..add('score', score)
+          ..add('by', by)
           ..add('title', title)
-          ..add('parts', parts)
-          ..add('descendants', descendants))
+          ..add('text', text)
+          ..add('url', url)
+          ..add('parent', parent)
+          ..add('kids', kids)
+          ..add('descendants', descendants)
+          ..add('score', score)
+          ..add('poll', poll)
+          ..add('parts', parts))
         .toString();
   }
 }
@@ -342,23 +308,11 @@ class HackerNewsItemBuilder
 
   set id(int id) => _$this._id = id;
 
-  bool _deleted;
-
-  bool get deleted => _$this._deleted;
-
-  set deleted(bool deleted) => _$this._deleted = deleted;
-
   String _type;
 
   String get type => _$this._type;
 
   set type(String type) => _$this._type = type;
-
-  String _by;
-
-  String get by => _$this._by;
-
-  set by(String by) => _$this._by = by;
 
   int _time;
 
@@ -366,47 +320,11 @@ class HackerNewsItemBuilder
 
   set time(int time) => _$this._time = time;
 
-  String _text;
+  String _by;
 
-  String get text => _$this._text;
+  String get by => _$this._by;
 
-  set text(String text) => _$this._text = text;
-
-  bool _dead;
-
-  bool get dead => _$this._dead;
-
-  set dead(bool dead) => _$this._dead = dead;
-
-  int _parent;
-
-  int get parent => _$this._parent;
-
-  set parent(int parent) => _$this._parent = parent;
-
-  int _poll;
-
-  int get poll => _$this._poll;
-
-  set poll(int poll) => _$this._poll = poll;
-
-  ListBuilder<int> _kids;
-
-  ListBuilder<int> get kids => _$this._kids ??= new ListBuilder<int>();
-
-  set kids(ListBuilder<int> kids) => _$this._kids = kids;
-
-  String _url;
-
-  String get url => _$this._url;
-
-  set url(String url) => _$this._url = url;
-
-  int _score;
-
-  int get score => _$this._score;
-
-  set score(int score) => _$this._score = score;
+  set by(String by) => _$this._by = by;
 
   String _title;
 
@@ -414,11 +332,29 @@ class HackerNewsItemBuilder
 
   set title(String title) => _$this._title = title;
 
-  ListBuilder<int> _parts;
+  String _text;
 
-  ListBuilder<int> get parts => _$this._parts ??= new ListBuilder<int>();
+  String get text => _$this._text;
 
-  set parts(ListBuilder<int> parts) => _$this._parts = parts;
+  set text(String text) => _$this._text = text;
+
+  String _url;
+
+  String get url => _$this._url;
+
+  set url(String url) => _$this._url = url;
+
+  int _parent;
+
+  int get parent => _$this._parent;
+
+  set parent(int parent) => _$this._parent = parent;
+
+  ListBuilder<int> _kids;
+
+  ListBuilder<int> get kids => _$this._kids ??= new ListBuilder<int>();
+
+  set kids(ListBuilder<int> kids) => _$this._kids = kids;
 
   int _descendants;
 
@@ -426,25 +362,41 @@ class HackerNewsItemBuilder
 
   set descendants(int descendants) => _$this._descendants = descendants;
 
+  int _score;
+
+  int get score => _$this._score;
+
+  set score(int score) => _$this._score = score;
+
+  int _poll;
+
+  int get poll => _$this._poll;
+
+  set poll(int poll) => _$this._poll = poll;
+
+  ListBuilder<int> _parts;
+
+  ListBuilder<int> get parts => _$this._parts ??= new ListBuilder<int>();
+
+  set parts(ListBuilder<int> parts) => _$this._parts = parts;
+
   HackerNewsItemBuilder();
 
   HackerNewsItemBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
-      _deleted = _$v.deleted;
       _type = _$v.type;
-      _by = _$v.by;
       _time = _$v.time;
-      _text = _$v.text;
-      _dead = _$v.dead;
-      _parent = _$v.parent;
-      _poll = _$v.poll;
-      _kids = _$v.kids?.toBuilder();
-      _url = _$v.url;
-      _score = _$v.score;
+      _by = _$v.by;
       _title = _$v.title;
-      _parts = _$v.parts?.toBuilder();
+      _text = _$v.text;
+      _url = _$v.url;
+      _parent = _$v.parent;
+      _kids = _$v.kids?.toBuilder();
       _descendants = _$v.descendants;
+      _score = _$v.score;
+      _poll = _$v.poll;
+      _parts = _$v.parts?.toBuilder();
       _$v = null;
     }
     return this;
@@ -470,20 +422,18 @@ class HackerNewsItemBuilder
       _$result = _$v ??
           new _$HackerNewsItem._(
               id: id,
-              deleted: deleted,
               type: type,
-              by: by,
               time: time,
-              text: text,
-              dead: dead,
-              parent: parent,
-              poll: poll,
-              kids: kids.build(),
-              url: url,
-              score: score,
+              by: by,
               title: title,
-              parts: parts.build(),
-              descendants: descendants);
+              text: text,
+              url: url,
+              parent: parent,
+              kids: kids.build(),
+              descendants: descendants,
+              score: score,
+              poll: poll,
+              parts: parts.build());
     } catch (_) {
       String _$failedField;
       try {

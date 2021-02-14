@@ -13,43 +13,51 @@ abstract class HackerNewsItem
   static Serializer<HackerNewsItem> get serializer =>
       _$hackerNewsItemSerializer;
 
+  /// The item's unique id (required)
   int get id;
 
-  @nullable
-  bool get deleted;
+  /// The type of item. One of "job", "story", "comment", "poll", or "pollopt".
+  String get type;
 
-  String get type; // "job", "story", "comment", "poll", or "pollopt".
-  String get by;
-
+  /// Creation date of the item, in Unix Time.
   int get time;
 
-  @nullable
-  String get text;
+  /// The username of the item's author.
+  String get by;
 
-  @nullable
-  bool get dead;
-
-  @nullable
-  int get parent;
-
-  @nullable
-  int get poll;
-
-  BuiltList<int> get kids;
-
-  @nullable
-  String get url;
-
-  @nullable
-  int get score;
-
+  /// The title of the story, poll or job.
   @nullable
   String get title;
 
-  BuiltList<int> get parts;
+  /// The story, comment, or poll text.
+  @nullable
+  String get text;
 
+  /// The URL of the story.
+  @nullable
+  String get url;
+
+  /// The comment's parent: either another comment or the relevant story.
+  @nullable
+  int get parent;
+
+  /// The ids of the item's comments, in ranked display order.
+  BuiltList<int> get kids;
+
+  /// In the case of stories or polls, the total comment count.
   @nullable
   int get descendants;
+
+  /// The story's score, or the votes for a pollopt.
+  @nullable
+  int get score;
+
+  /// The pollopt's associated poll.
+  @nullable
+  int get poll;
+
+  /// A list of related pollopts, in display order.
+  BuiltList<int> get parts;
 
   HackerNewsItem._();
 

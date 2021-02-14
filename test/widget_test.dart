@@ -1,7 +1,9 @@
 // How to fix Widget Test Error: Not found: 'dart:ui'
-// Edit Configurations -> + -> Flutter Test
-// Make sure the Test scope is 'All in file' and that the Test file
-// points at your test file.
+// Edit Configurations -> Add new configuration (+) -> Flutter Test
+// Make sure that the Test scope is 'All in file' and that
+// the Test file points at your test file.
+// The Test scope can also be' All in Directory', in which case
+// you need to provide the path to your testing directory.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_news_toyapp/main.dart';
