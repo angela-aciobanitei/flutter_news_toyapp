@@ -5,6 +5,7 @@
 
 import 'dart:async';
 import 'dart:collection';
+import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
 import 'package:rxdart/rxdart.dart';
@@ -14,19 +15,18 @@ import 'article.dart';
 class HackerNewsBloc {
   static const _baseUrl = 'https://hacker-news.firebaseio.com/v0/';
 
+  var _articles = <Article>[];
   HashMap<int, Article> _cachedArticles;
 
   final _articlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
   final _isLoadingSubject = BehaviorSubject<bool>();
   final _storiesTypeController = StreamController<StoriesType>();
 
-  var _articles = <Article>[];
-
   HackerNewsBloc() {
     _cachedArticles = HashMap<int, Article>();
-    _initArticles();
+    _getArticlesByStoryType(StoriesType.topStories);
     _storiesTypeController.stream.listen((storiesType) async {
-      _getArticlesByIds(await _getIds(storiesType));
+      _getArticlesByStoryType(storiesType);
     });
   }
 
@@ -36,17 +36,14 @@ class HackerNewsBloc {
 
   Sink<StoriesType> get storiesType => _storiesTypeController.sink;
 
-  Future<Article> _getArticle(int id) async {
-    if (!_cachedArticles.containsKey(id)) {
-      final storyUrl = '${_baseUrl}item/$id.json';
-      final storyResponse = await http.get(storyUrl);
-      if (storyResponse.statusCode == 200) {
-        _cachedArticles[id] = parseArticle(storyResponse.body);
-      } else {
-        throw HackerNewsApiError("Could not fetch article $id.");
-      }
+  Future<void> _getArticlesByStoryType(StoriesType storiesType) async {
+    try {
+      final ids = await _getIds(storiesType);
+      final articles = _getArticlesByIds(ids);
+      return articles;
+    } catch (err) {
+      dev.log("$err");
     }
-    return _cachedArticles[id];
   }
 
   Future<List<int>> _getIds(StoriesType type) async {
@@ -59,15 +56,25 @@ class HackerNewsBloc {
     return parseTopStories(response.body).take(20).toList();
   }
 
-  Future<void> _initArticles() async {
-    _getArticlesByIds(await _getIds(StoriesType.topStories));
-  }
-
   _getArticlesByIds(List<int> ids) async {
     _isLoadingSubject.add(true);
     _articles = await Future.wait(ids.map((id) => _getArticle(id)));
     _articlesSubject.add(UnmodifiableListView(_articles));
     _isLoadingSubject.add(false);
+  }
+
+  // TODO: Fix Unhandled Exception - where to catch this error?
+  Future<Article> _getArticle(int id) async {
+    if (!_cachedArticles.containsKey(id)) {
+      final storyUrl = '${_baseUrl}item/$id.json';
+      final storyResponse = await http.get(storyUrl);
+      if (storyResponse.statusCode != 200) {
+        throw HackerNewsApiError("Could not fetch article $id.");
+      } else {
+        _cachedArticles[id] = parseArticle(storyResponse.body);
+      }
+    }
+    return _cachedArticles[id];
   }
 }
 
