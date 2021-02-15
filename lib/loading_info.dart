@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoadingInfo extends StatefulWidget {
-  Stream<bool> _isLoading;
+  final Stream<bool> _isLoading;
 
   LoadingInfo(this._isLoading);
 
