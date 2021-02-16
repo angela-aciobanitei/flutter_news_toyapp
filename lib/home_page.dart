@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_news_toyapp/loading_info.dart';
 import 'package:flutter_news_toyapp/src/article.dart';
 import 'package:flutter_news_toyapp/src/hn_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        leading: LoadingInfo(widget.bloc.isLoading),
+        elevation: 0.0,
       ),
       body: StreamBuilder<UnmodifiableListView<Article>>(
         stream: widget.bloc.articles,
@@ -62,23 +61,27 @@ class _HomePageState extends State<HomePage> {
   Widget _buildItem(Article article) {
     return ExpansionTile(
       key: Key(article.id.toString()),
-      title: Text(article.title ?? '[null]'),
+      title: Text(article.title ?? '[null]',
+          style: TextStyle(fontFamily: 'Garamond', fontSize: 16.0)),
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("${article.descendants} comments"),
+              Text('${article.descendants} comments',
+                  style: TextStyle(fontFamily: 'Garamond')),
               IconButton(
                 icon: Icon(Icons.launch),
                 onPressed: () async {
-                  if (await canLaunch(article.url)) launch(article.url);
+                  if (await canLaunch(article.url)) {
+                    launch(article.url);
+                  }
                 },
               )
             ],
           ),
-        )
+        ),
       ],
     );
   }

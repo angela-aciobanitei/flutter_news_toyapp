@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@deprecated
 class LoadingInfo extends StatefulWidget {
   final Stream<bool> _isLoading;
 
@@ -26,6 +27,7 @@ class LoadingInfoState extends State<LoadingInfo>
         stream: widget._isLoading,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData && snapshot.data) {
+            // This is a hack, don't replicate in the future
             _controller.forward().then((value) => _controller.reverse());
             return FadeTransition(
                 child: Icon(FontAwesomeIcons.hackerNewsSquare),

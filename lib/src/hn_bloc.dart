@@ -20,6 +20,7 @@ class HackerNewsBloc {
 
   final _articlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
   final _isLoadingSubject = BehaviorSubject<bool>();
+  // TODO: Fix warning where to close this sink
   final _storiesTypeController = StreamController<StoriesType>();
 
   HackerNewsBloc() {
