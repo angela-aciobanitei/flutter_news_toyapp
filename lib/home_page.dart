@@ -34,7 +34,9 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               final Article result = await showSearch(
                 context: context,
-                delegate: ArticleSearch(widget.bloc.articles),
+                delegate: ArticleSearch(_currentIndex == 0
+                    ? widget.bloc.topArticles
+                    : widget.bloc.newArticles),
               );
               if (result != null) {
                 Navigator.push(
@@ -47,13 +49,23 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: StreamBuilder<UnmodifiableListView<Article>>(
-        stream: widget.bloc.articles,
-        initialData: UnmodifiableListView<Article>([]),
-        builder: (context, snapshot) => ListView(
-          children: snapshot.data.map(_buildItem).toList(),
-        ),
-      ),
+      body: _currentIndex == 0
+          ? StreamBuilder<UnmodifiableListView<Article>>(
+              stream: widget.bloc.topArticles,
+              initialData: UnmodifiableListView<Article>([]),
+              builder: (context, snapshot) => ListView(
+                key: PageStorageKey(0),
+                children: snapshot.data.map(_buildItem).toList(),
+              ),
+            )
+          : StreamBuilder<UnmodifiableListView<Article>>(
+              stream: widget.bloc.newArticles,
+              initialData: UnmodifiableListView<Article>([]),
+              builder: (context, snapshot) => ListView(
+                key: PageStorageKey(1),
+                children: snapshot.data.map(_buildItem).toList(),
+              ),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -77,8 +89,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildItem(Article article) {
+    // This widget is typically used with ListView to create an "expand / collapse"
+    // list entry. When used with scrolling widgets like ListView, a unique
+    // PageStorageKey must be specified to enable the ExpansionTile to save
+    // and restore its expanded state when it is scrolled in and out of view.
+    // Note: if PageStorageKey is not specified here too, it will throw an exception.
     return ExpansionTile(
-      key: Key(article.id.toString()),
+      key: PageStorageKey(article.id),
       title: Text(article.title ?? '[null]',
           style: TextStyle(fontFamily: 'Garamond', fontSize: 16.0)),
       children: [

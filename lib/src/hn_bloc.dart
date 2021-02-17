@@ -18,8 +18,11 @@ class HackerNewsBloc {
   var _articles = <Article>[];
   HashMap<int, Article> _cachedArticles;
 
-  final _articlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
+  final _topArticlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
+  final _newArticlesSubject = BehaviorSubject<UnmodifiableListView<Article>>();
+
   final _isLoadingSubject = BehaviorSubject<bool>();
+
   // TODO: Fix warning where to close this sink
   final _storiesTypeController = StreamController<StoriesType>();
 
@@ -31,17 +34,19 @@ class HackerNewsBloc {
     });
   }
 
-  Stream<UnmodifiableListView<Article>> get articles => _articlesSubject.stream;
+  Stream<UnmodifiableListView<Article>> get topArticles =>
+      _topArticlesSubject.stream;
+
+  Stream<UnmodifiableListView<Article>> get newArticles =>
+      _newArticlesSubject.stream;
 
   Stream<bool> get isLoading => _isLoadingSubject.stream;
 
   Sink<StoriesType> get storiesType => _storiesTypeController.sink;
 
-  Future<void> _getArticlesByStoryType(StoriesType storiesType) async {
+  _getArticlesByStoryType(StoriesType type) async {
     try {
-      final ids = await _getIds(storiesType);
-      final articles = _getArticlesByIds(ids);
-      return articles;
+      _getArticles(await _getIds(type), type);
     } catch (err) {
       dev.log("$err");
     }
@@ -57,10 +62,14 @@ class HackerNewsBloc {
     return parseTopStories(response.body).take(20).toList();
   }
 
-  _getArticlesByIds(List<int> ids) async {
+  _getArticles(List<int> ids, StoriesType type) async {
     _isLoadingSubject.add(true);
     _articles = await Future.wait(ids.map((id) => _getArticle(id)));
-    _articlesSubject.add(UnmodifiableListView(_articles));
+    if (type == StoriesType.topStories) {
+      _topArticlesSubject.add(UnmodifiableListView(_articles));
+    } else if (type == StoriesType.newStories) {
+      _newArticlesSubject.add(UnmodifiableListView(_articles));
+    }
     _isLoadingSubject.add(false);
   }
 
