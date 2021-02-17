@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_news_toyapp/src/article.dart';
+import 'package:flutter_news_toyapp/src/article_search.dart';
 import 'package:flutter_news_toyapp/src/hn_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,7 +28,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        elevation: 0.0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              final Article result = await showSearch(
+                context: context,
+                delegate: ArticleSearch(widget.bloc.articles),
+              );
+              if (result != null && await canLaunch(result.url)) {
+                launch(result.url);
+              }
+            },
+          ),
+        ],
       ),
       body: StreamBuilder<UnmodifiableListView<Article>>(
         stream: widget.bloc.articles,
