@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_news_toyapp/src/article.dart';
 import 'package:flutter_news_toyapp/src/article_search.dart';
 import 'package:flutter_news_toyapp/src/hn_bloc.dart';
-import 'package:flutter_news_toyapp/src/hn_web_page.dart';
+import 'package:flutter_news_toyapp/src/hn_web_view.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -40,7 +40,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HackerNewsWebPage(result.url)));
+                        builder: (context) =>
+                            HackerNewsWebView(url: result.url)));
               }
             },
           ),
@@ -91,11 +92,12 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.launch),
                 onPressed: () async {
+                  // if (await canLaunch(article.url)) launch(article.url);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              HackerNewsWebPage(article.url)));
+                              HackerNewsWebView(url: article.url)));
                 },
               )
             ],
