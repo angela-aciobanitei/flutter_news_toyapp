@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_news_toyapp/src/article.dart';
 import 'package:flutter_news_toyapp/src/article_search.dart';
 import 'package:flutter_news_toyapp/src/hn_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_news_toyapp/src/hn_web_page.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -36,8 +36,11 @@ class _HomePageState extends State<HomePage> {
                 context: context,
                 delegate: ArticleSearch(widget.bloc.articles),
               );
-              if (result != null && await canLaunch(result.url)) {
-                launch(result.url);
+              if (result != null) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HackerNewsWebPage(result.url)));
               }
             },
           ),
@@ -88,9 +91,11 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.launch),
                 onPressed: () async {
-                  if (await canLaunch(article.url)) {
-                    launch(article.url);
-                  }
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HackerNewsWebPage(article.url)));
                 },
               )
             ],
